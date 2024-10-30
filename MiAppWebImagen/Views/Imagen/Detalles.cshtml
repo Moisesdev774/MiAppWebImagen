@@ -1,0 +1,37 @@
+﻿@model Imagen // Especifica que el modelo de la vista es de tipo Imagen
+
+@{
+    ViewData["Title"] = "Detalles"; // Establece el título de la vista
+}
+
+<h1>Detalles de la Imagen</h1> @* // Título principal de la página *@
+
+<div class="container">
+    @* // Contenedor principal para los detalles de la imagen *@
+    <!-- Muestra los detalles de la imagen seleccionada -->
+    <div class="form-horizontal">
+        @* // Estilo de formulario horizontal *@
+
+        <!-- Campo oculto para el Id de la imagen (no visible, solo para referencia si es necesario) -->
+        <input type="hidden" asp-for="Id" /> @* // Campo oculto para almacenar el ID de la imagen
+ *@
+        <!-- Campo que muestra el nombre de la imagen en modo solo lectura -->
+        <div class="form-group">
+            <label asp-for="Nombre" class="control-label">Nombre</label> @* // Etiqueta para el campo Nombre *@
+            <input asp-for="Nombre" class="form-control" readonly /> @* // Campo de entrada para el nombre, solo lectura *@
+        </div>
+
+        <!-- Previsualización de la imagen actual -->
+        <div class="form-group">
+            <label>Previsualización de Imagen</label>@*  // Etiqueta para la previsualización *@
+            <img src="@Url.Content("~/"+ Model.RutaImagen)" alt="Previsualización" style="max-width: 100%; height: auto; border: 1px solid #ddd; padding: 5px; margin-top: 10px;" />
+            <!-- Muestra la imagen usando la ruta almacenada en el modelo -->
+        </div>
+
+        <!-- Botones para ir a la edición o regresar al índice -->
+        <div class="form-group">
+            <a asp-action="Editar" asp-route-id="@Model.Id" class="btn btn-primary">Editar</a> @* // Botón para ir a la página de edición *@
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>@*  // Botón para regresar a la lista de imágenes *@
+        </div>
+    </div>
+</div>

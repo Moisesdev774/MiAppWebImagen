@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Imagen> // Especifica que el modelo de la vista es una colección de objetos de tipo Imagen
+
+@{
+    ViewData["Title"] = "Lista de Imágenes"; // Establece el título de la vista
+}
+
+<h2 class="my-4">Lista de Imágenes</h2>  @* Título principal de la página *@
+
+<a href="@Url.Action("Crear", "Imagen")" class="btn btn-primary mb-3">Subir Nueva Imagen</a>
+@* // Botón para crear una nueva imagen que redirige a la acción "Crear" del controlador "Imagen" *@
+
+<table class="table table-bordered table-striped">
+   @*  // Tabla para mostrar la lista de imágenes *@
+    <thead class="table-dark">
+       @*  // Encabezado de la tabla *@
+        <tr>
+            <th>Nombre</th> @* // Columna para el nombre de la imagen *@
+            <th>Imagen</th> @* // Columna para la vista previa de la imagen *@
+            <th>Acciones</th>@*  // Columna para las acciones (editar, detalles, eliminar) *@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) // Itera sobre cada imagen en el modelo
+        {
+            <tr>
+               @*  // Fila de la tabla para cada imagen *@
+                <td>@item.Nombre</td> @* // Muestra el nombre de la imagen *@
+                <td><img src="~/@item.RutaImagen" alt="Imagen" width="100" class="img-thumbnail" /></td>
+                <!-- Muestra la imagen con una vista previa de ancho 100px usando la ruta almacenada en el modelo -->
+
+                <td>
+                   @*  // Columna para las acciones *@
+                    <a href="@Url.Action("Editar", "Imagen", new { id = item.Id })" class="btn btn-warning btn-sm">Editar</a>
+                    <!-- Enlace para editar la imagen que redirige a la acción "Editar" del controlador "Imagen" -->
+
+                    <a href="@Url.Action("Detalles", "Imagen", new { id = item.Id })" class="btn btn-secondary btn-sm">Detalles</a>
+                    <!-- Enlace para ver los detalles de la imagen que redirige a la acción "Detalles" del controlador "Imagen" -->
+
+                    <form asp-action="EliminarR" method="post" class="d-inline">
+                       @*  // Formulario para eliminar la imagen *@
+                        <input type="hidden" name="id" value="@item.Id" /> @* // Campo oculto para el ID de la imagen *@
+                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button> @* // Botón para enviar el formulario y eliminar la imagen *@
+                    </form>
+                </td>
+            </tr>
+        }@*  // Fin del foreach *@
+    </tbody>
+</table> @* // Fin de la tabla *@

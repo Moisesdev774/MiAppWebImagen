@@ -1,0 +1,63 @@
+﻿@model Imagen // Especifica que el modelo de la vista es de tipo Imagen
+
+@{
+    ViewData["Title"] = "Crear"; // Establece el título de la vista
+}
+
+<h2>Crear Imagen</h2>@*  // Título principal de la página *@
+
+<div class="container">
+    // Contenedor principal para el formulario
+    <!-- Formulario para crear una nueva imagen -->
+    <form asp-action="Crear" method="post" enctype="multipart/form-data" class="form-horizontal">
+        <!-- Indica que el formulario envía datos a la acción Crear y permite archivos -->
+        <!-- Campo para ingresar el nombre de la imagen -->
+        <div class="form-group">
+            <label asp-for="Nombre" class="control-label">Nombre</label> @* // Etiqueta para el campo Nombre *@
+            <input asp-for="Nombre" class="form-control" />@*  // Campo de entrada para el nombre de la imagen *@
+            <span asp-validation-for="Nombre" class="text-danger"></span> @* // Mensaje de error para el campo Nombre *@
+        </div>
+
+        <!-- Campo de entrada para seleccionar una imagen desde el equipo -->
+        <div class="form-group">
+            <label for="archivoImagen" class="control-label">Seleccionar Imagen desde el Equipo</label> @* // Etiqueta para el campo de archivo *@
+            <input type="file" name="archivoImagen" class="form-control" onchange="mostrarPrevisualizacion(this)" accept="image/*" />
+            <!-- Campo para seleccionar un archivo; se llama a la función mostrarPrevisualizacion al cambiar -->
+            <span asp-validation-for="RutaImagen" class="text-danger"></span> @* // Mensaje de error para la ruta de la imagen *@
+        </div>
+
+        <!-- Previsualización de la imagen seleccionada -->
+        <div class="form-group">
+            <label>Previsualización de Imagen</label> @* // Etiqueta para la previsualización *@
+            <img id="previsualizacion" src="#" alt="Previsualización" style="display:none; max-width: 100%; height: auto; border: 1px solid #ddd; padding: 5px; margin-top: 10px;" />
+            <!-- Imagen para mostrar la previsualización; inicialmente oculta -->
+        </div>
+
+        <!-- Botones para guardar o cancelar -->
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Guardar</button> @* // Botón para enviar el formulario *@
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a> @* // Botón para cancelar y volver al índice *@
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @*  // Sección para scripts de la vista *@
+    <script type="text/javascript">
+        // Función para mostrar la previsualización de la imagen seleccionada
+        function mostrarPrevisualizacion(input) {
+            var previsualizacion = document.getElementById("previsualizacion"); // Obtiene el elemento de imagen para la previsualización
+            if (input.files && input.files[0]) { // Verifica si se ha seleccionado un archivo
+                var reader = new FileReader(); // Crea un nuevo FileReader para leer el archivo
+                reader.onload = function (e) { // Evento que se ejecuta cuando se termina de leer el archivo
+                    // Establece la fuente de la imagen de previsualización
+                    previsualizacion.src = e.target.result; // Asigna la fuente de la imagen a la data URL
+                    previsualizacion.style.display = "block"; // Muestra la imagen
+                };
+                reader.readAsDataURL(input.files[0]); // Lee el archivo como URL de datos
+            } else {
+                previsualizacion.style.display = "none"; // Oculta la imagen si no hay archivo
+            }
+        }
+    </script>
+}

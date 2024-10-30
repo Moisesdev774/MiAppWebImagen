@@ -1,0 +1,64 @@
+﻿@model Imagen // Especifica que el modelo de la vista es de tipo Imagen
+
+@{
+    ViewData["Title"] = "Editar"; // Establece el título de la vista
+}
+
+<h1>Editar Imagen</h1> // Título principal de la página
+
+<div class="container">
+   @*  // Contenedor principal para el formulario de edición *@
+    <!-- Formulario para editar la imagen existente -->
+    <form asp-action="Actualizar" method="post" enctype="multipart/form-data" class="form-horizontal">
+        <!-- Campo oculto para el Id de la imagen -->
+        <input type="hidden" asp-for="Id" /> @* // Campo oculto para almacenar el ID de la imagen *@
+
+        <!-- Campo para el nombre de la imagen -->
+        <div class="form-group">
+            <label asp-for="Nombre" class="control-label">Nombre</label>@*  // Etiqueta para el campo Nombre *@
+            <input asp-for="Nombre" class="form-control" /> @* // Campo de entrada para el nombre de la imagen *@
+            <span asp-validation-for="Nombre" class="text-danger"></span> @* // Mensaje de error para el campo Nombre *@
+        </div>
+
+        <!-- Campo de entrada para seleccionar una nueva imagen desde el equipo -->
+        <div class="form-group">
+            <label for="nuevaImagen" class="control-label">Seleccionar Nueva Imagen (opcional)</label> @* // Etiqueta para el campo de archivo *@
+            <input type="file" name="nuevaImagen" class="form-control" onchange="mostrarPrevisualizacion(this)" accept="image/*" />
+            <!-- Campo para seleccionar un nuevo archivo; se llama a la función mostrarPrevisualizacion al cambiar -->
+        </div>
+
+        <!-- Previsualización de la imagen actual o de la nueva imagen seleccionada -->
+        <div class="form-group">
+            <label>Previsualización de Imagen</label>@*  // Etiqueta para la previsualización *@
+            <img id="previsualizacion" src="@Url.Content("~/"+ Model.RutaImagen)" alt="Previsualización" style="max-width: 100%; height: auto; border: 1px solid #ddd; padding: 5px; margin-top: 10px;" />
+            <!-- Muestra la imagen usando la ruta almacenada en el modelo -->
+        </div>
+
+        <!-- Botones para guardar o cancelar -->
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Guardar</button> @* // Botón para enviar el formulario y guardar los cambios *@
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a> @* // Botón para regresar a la lista de imágenes *@
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @*  // Sección para scripts de la vista *@
+    <script type="text/javascript">
+        // Función para mostrar la previsualización de la imagen seleccionada
+        function mostrarPrevisualizacion(input) {
+            var previsualizacion = document.getElementById("previsualizacion"); // Obtiene el elemento de imagen para la previsualización
+            if (input.files && input.files[0]) { // Verifica si se ha seleccionado un archivo
+                var reader = new FileReader(); // Crea un nuevo FileReader para leer el archivo
+                reader.onload = function (e) { // Evento que se ejecuta cuando se termina de leer el archivo
+                    // Establece la fuente de la imagen de previsualización
+                    previsualizacion.src = e.target.result; // Asigna la fuente de la imagen a la data URL
+                };
+                reader.readAsDataURL(input.files[0]); // Lee el archivo como URL de datos
+            } else {
+                // Si no hay archivo, restaura la imagen actual
+                previsualizacion.src = '@Url.Content("~/" + Model.RutaImagen)'; // Restaura la imagen actual si no se selecciona un nuevo archivo
+            }
+        }
+    </script>
+}
