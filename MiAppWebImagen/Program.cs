@@ -15,7 +15,7 @@ var app = builder.Build(); // Construye la aplicación web
 // Configura el pipeline de solicitudes HTTP.
 if (!app.Environment.IsDevelopment()) // Verifica si no está en un entorno de desarrollo
 {
-    app.UseExceptionHandler("/Home/Error"); // Maneja las excepciones redirigiendo a la acción de error en Home
+    app.UseExceptionHandler("/Imagen/Error"); // Maneja las excepciones redirigiendo a la acción de error en Home
     // El valor predeterminado de HSTS es de 30 días. Puede que desees cambiar esto para escenarios de producción, consulta https://aka.ms/aspnetcore-hsts.
     app.UseHsts(); // Activa HTTP Strict Transport Security (HSTS) para mejorar la seguridad
 }

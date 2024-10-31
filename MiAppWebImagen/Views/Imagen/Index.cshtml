@@ -36,7 +36,7 @@
                     <a href="@Url.Action("Detalles", "Imagen", new { id = item.Id })" class="btn btn-secondary btn-sm">Detalles</a>
                     <!-- Enlace para ver los detalles de la imagen que redirige a la acción "Detalles" del controlador "Imagen" -->
 
-                    <form asp-action="EliminarR" method="post" class="d-inline">
+                    <form asp-action="Eliminar" method="post" class="d-inline">
                        @*  // Formulario para eliminar la imagen *@
                         <input type="hidden" name="id" value="@item.Id" /> @* // Campo oculto para el ID de la imagen *@
                         <button type="submit" class="btn btn-danger btn-sm">Eliminar</button> @* // Botón para enviar el formulario y eliminar la imagen *@
